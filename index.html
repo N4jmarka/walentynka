@@ -1,5 +1,4 @@
-
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
@@ -25,7 +24,11 @@
       border-radius: 20px;
       box-shadow: 0 0 30px rgba(0,0,0,0.2);
       text-align: center;
-      max-width: 400px;
+      max-width: 420px;
+    }
+
+    h1 {
+      margin-bottom: 25px;
     }
 
     button {
@@ -47,17 +50,19 @@
       position: absolute;
     }
 
+    /* FINAŁ */
     .big-heart {
-      font-size: 180px;
+      font-size: 200px;
       animation: beat 1s infinite;
     }
 
     @keyframes beat {
       0% { transform: scale(1); }
-      30% { transform: scale(1.3); }
+      30% { transform: scale(1.35); }
       60% { transform: scale(1); }
     }
 
+    /* SERDUSZKA W TLE */
     .floating-heart {
       position: absolute;
       bottom: -50px;
@@ -73,52 +78,75 @@
 </head>
 <body>
 
-<!-- PYTANIE -->
-<div class="container" id="question">
-  <h1>Klaudio 💕<br>Czy zostaniesz moją walentynką?</h1>
-  <button id="yes">TAK</button>
-  <button id="no">NIE</button>
-</div>
-
-<!-- FINAŁ -->
-<div class="container" id="final" style="display:none;">
-  <div class="big-heart">❤️</div>
-  <h1>Kocham Cię Klaudio 💖<br>Moja Walentynko</h1>
+<div class="container" id="box">
+  <h1 id="text">Hej Klaudio 💕<br>Mam do Ciebie pytanie…</h1>
+  <button id="yes">Dalej</button>
+  <button id="no" style="display:none;">NIE</button>
 </div>
 
 <script>
-  const noBtn = document.getElementById("no");
+  const text = document.getElementById("text");
   const yesBtn = document.getElementById("yes");
+  const noBtn = document.getElementById("no");
+  const box = document.getElementById("box");
 
+  let stage = 0;
   let noClicks = 0;
 
   function moveNoButton() {
-    const x = Math.random() * (window.innerWidth - 140);
-    const y = Math.random() * (window.innerHeight - 140);
+    const x = Math.random() * (window.innerWidth - 150);
+    const y = Math.random() * (window.innerHeight - 150);
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
   }
 
-  // KLIKALNE NIE – ZA KAŻDYM RAZEM ZMIENIA POZYCJĘ
-  noBtn.addEventListener("click", () => {
-    noClicks++;
+  yesBtn.addEventListener("click", () => {
+    stage++;
 
-    if (noClicks < 5) {
+    if (stage === 1) {
+      text.innerHTML = "Czy wiesz, że jesteś<br>najpiękniejszą osobą jaką znam? 💖";
+    }
+
+    if (stage === 2) {
+      text.innerHTML = "Serio… bez Ciebie<br>ten dzień nie ma sensu 🥺";
+      yesBtn.innerText = "No dobra 😳";
+    }
+
+    if (stage === 3) {
+      text.innerHTML = "Więc mam jedno,<br>naprawdę ważne pytanie… 💌";
+      yesBtn.innerText = "Słucham";
+    }
+
+    if (stage === 4) {
+      text.innerHTML = "Klaudio 💕<br>Czy zostaniesz moją walentynką?";
+      yesBtn.innerText = "TAK";
+      noBtn.style.display = "inline-block";
       moveNoButton();
-    } else {
-      noBtn.innerText = "Już wiesz 😏";
-      noBtn.disabled = true;
-      noBtn.style.opacity = "0.6";
+    }
+
+    if (stage === 5) {
+      // FINAŁ
+      box.innerHTML = `
+        <div class="big-heart">❤️</div>
+        <h1>Kocham Cię Klaudio 💖<br>Moja Walentynko</h1>
+      `;
     }
   });
 
-  // TAK – finał
-  yesBtn.addEventListener("click", () => {
-    document.getElementById("question").style.display = "none";
-    document.getElementById("final").style.display = "block";
+  noBtn.addEventListener("click", () => {
+    noClicks++;
+    moveNoButton();
+
+    if (noClicks === 1) text.innerHTML = "Ej 😅 spróbuj jeszcze raz…";
+    if (noClicks === 2) text.innerHTML = "Na pewno NIE? 🥺";
+    if (noClicks === 3) text.innerHTML = "Klaudioooo 😭";
+    if (noClicks >= 4) {
+      noBtn.disabled = true;
+      noBtn.innerText = "i tak TAK 😏";
+    }
   });
 
-  // serduszka w tle
+  // SERDUSZKA
   function createHeart() {
     const heart = document.createElement("div");
     heart.className = "floating-heart";
@@ -127,15 +155,12 @@
     heart.style.fontSize = Math.random() * 20 + 20 + "px";
     heart.style.animationDuration = Math.random() * 3 + 4 + "s";
     document.body.appendChild(heart);
-
     setTimeout(() => heart.remove(), 7000);
   }
 
   setInterval(createHeart, 300);
-
-  // startowa pozycja NIE
-  moveNoButton();
 </script>
 
 </body>
 </html>
+
