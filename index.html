@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>💖 Walentynka dla Klaudii 💖</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: pink;
+      overflow: hidden;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      margin: auto;
+      top: 30vh;
+    }
+
+    button {
+      font-size: 20px;
+      padding: 10px 25px;
+      margin: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      position: relative;
+    }
+
+    #yes {
+      background: #ff4d6d;
+      color: white;
+    }
+
+    #no {
+      background: #ccc;
+      position: absolute;
+    }
+
+    .heart {
+      font-size: 100px;
+      color: red;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    .floating-heart {
+      position: absolute;
+      bottom: -50px;
+      color: rgba(255, 0, 80, 0.7);
+      font-size: 24px;
+      animation: floatUp 6s linear infinite;
+    }
+
+    @keyframes floatUp {
+      from {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(-120vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="question">
+  <h1>Klaudio 💕<br>Czy zostaniesz moją walentynką? 💌</h1>
+  <button id="yes" onclick="yesClick()">TAK</button>
+  <button id="no">NIE</button>
+</div>
+
+<div class="container" id="love" style="display:none;">
+  <div class="heart">❤️</div>
+  <h1>Kocham Cię Klaudio,<br>moja walentynko 💖</h1>
+</div>
+
+<script>
+  const noBtn = document.getElementById("no");
+
+  noBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 100);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+  });
+
+  function yesClick() {
+    document.getElementById("question").style.display = "none";
+    document.getElementById("love").style.display = "block";
+  }
+
+  // animowane serduszka w tle
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "floating-heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = Math.random() * 20 + 20 + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+      heart.remove();
+    }, 6000);
+  }
+
+  setInterval(createHeart, 400);
+</script>
+
+</body>
+</html>
